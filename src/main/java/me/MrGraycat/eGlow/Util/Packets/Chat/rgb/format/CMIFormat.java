@@ -1,4 +1,4 @@
-package me.MrGraycat.eGlow.Util.Packets.Chat.rgb.format;
+package me.mrgraycat.eglow.util.packets.chat.rgb.format;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class CMIFormat implements RGBFormatter {
 
     private final Pattern pattern = Pattern.compile("\\{#[0-9a-fA-F]{6}}");
-    
+
     @Override
     public String reformat(String text) {
         if (!text.contains("{#")) return text;

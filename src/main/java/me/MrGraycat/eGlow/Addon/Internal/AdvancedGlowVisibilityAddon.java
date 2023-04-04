@@ -1,9 +1,9 @@
-package me.MrGraycat.eGlow.Addon.Internal;
+package me.mrgraycat.eglow.addon.internal;
 
-import me.MrGraycat.eGlow.Config.EGlowMainConfig;
-import me.MrGraycat.eGlow.EGlow;
-import me.MrGraycat.eGlow.Manager.DataManager;
-import me.MrGraycat.eGlow.Manager.Interface.IEGlowPlayer;
+import me.mrgraycat.eglow.EGlow;
+import me.mrgraycat.eglow.config.EGlowMainConfig;
+import me.mrgraycat.eglow.util.data.DataManager;
+import me.mrgraycat.eglow.util.data.EGlowPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,16 +15,7 @@ import org.bukkit.util.Vector;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AdvancedGlowVisibilityAddon {
@@ -49,11 +40,11 @@ public class AdvancedGlowVisibilityAddon {
         runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Collection<IEGlowPlayer> ePlayers = DataManager.getEGlowPlayers();
+                Collection<EGlowPlayer> ePlayers = DataManager.getEGlowPlayers();
 
                 List<BiPair<UUID, UUID>> checkedPlayers = new ArrayList<>(ePlayers.size());
 
-                for (IEGlowPlayer ePlayer : ePlayers) {
+                for (EGlowPlayer ePlayer : ePlayers) {
                     Player player = ePlayer.getPlayer();
                     Location playerLoc = player.getEyeLocation();
                     boolean playerIsGlowing = ePlayer.getGlowStatus();
@@ -63,7 +54,7 @@ public class AdvancedGlowVisibilityAddon {
 
                     for (Player p : Objects.requireNonNull(playerLoc.getWorld()).getPlayers()) {
                         if (p != player && distance(p.getEyeLocation(), playerLoc) < MAX_DISTANCE && p.getWorld().equals(playerLoc.getWorld())) {
-                            IEGlowPlayer ePlayerNearby = DataManager.getEGlowPlayer(p);
+                            EGlowPlayer ePlayerNearby = DataManager.getEGlowPlayer(p);
                             if (ePlayerNearby != null) {
                                 boolean nearbyIsGlowing = ePlayerNearby.getGlowStatus();
                                 if (!playerIsGlowing && !nearbyIsGlowing)
@@ -115,7 +106,7 @@ public class AdvancedGlowVisibilityAddon {
      * @param playerLoc The location to check against.
      * @return True if the player's location hasn't changed, false otherwise.
      */
-    private boolean checkLocationCache(IEGlowPlayer ePlayer, Location playerLoc) {
+    private boolean checkLocationCache(EGlowPlayer ePlayer, Location playerLoc) {
         Location cached = cache.get(ePlayer.getUUID());
 
         if (cached == null) {
@@ -137,7 +128,7 @@ public class AdvancedGlowVisibilityAddon {
      * @param p2     Player 2.
      * @param toggle Whether to enable, or disable glow.
      */
-    private void toggleGlow(IEGlowPlayer p1, IEGlowPlayer p2, boolean toggle) {
+    private void toggleGlow(EGlowPlayer p1, EGlowPlayer p2, boolean toggle) {
         if (toggle) {
             p1.addGlowTarget(p2.getPlayer());
             p2.addGlowTarget(p1.getPlayer());
@@ -147,7 +138,7 @@ public class AdvancedGlowVisibilityAddon {
         }
     }
 
-    public void uncachePlayer(IEGlowPlayer ePlayer) {
+    public void uncachePlayer(EGlowPlayer ePlayer) {
         cache.remove(ePlayer.getUUID());
     }
 

@@ -1,26 +1,28 @@
-package me.MrGraycat.eGlow.Util.Packets.OutGoing;
+package me.mrgraycat.eglow.util.packets.outgoing;
 
-import me.MrGraycat.eGlow.Util.Packets.Chat.IChatBaseComponent;
-import me.MrGraycat.eGlow.Util.Packets.NMSHook;
-import me.MrGraycat.eGlow.Util.Packets.NMSStorage;
-import me.MrGraycat.eGlow.Util.Packets.ProtocolVersion;
+import me.mrgraycat.eglow.util.packets.NMSHook;
+import me.mrgraycat.eglow.util.packets.NMSStorage;
+import me.mrgraycat.eglow.util.packets.ProtocolVersion;
+import me.mrgraycat.eglow.util.packets.chat.IChatBaseComponent;
 
 import java.util.UUID;
 
 public class PacketPlayOutChat extends PacketPlayOut {
-    /** Message to be sent */
+    /**
+     * Message to be sent
+     */
     private final IChatBaseComponent message;
 
-    /** Message position */
+    /**
+     * Message position
+     */
     private final ChatMessageType type;
 
     /**
      * Constructs new instance with given parameters
      *
-     * @param   message
-     *          Chat message to be sent
-     * @param   type
-     *          Message position
+     * @param message Chat message to be sent
+     * @param type    Message position
      */
     public PacketPlayOutChat(IChatBaseComponent message, ChatMessageType type) {
         this.message = message;
@@ -30,7 +32,7 @@ public class PacketPlayOutChat extends PacketPlayOut {
     /**
      * Returns {@link #message}
      *
-     * @return  message
+     * @return message
      */
     public IChatBaseComponent getMessage() {
         return message;
@@ -39,7 +41,7 @@ public class PacketPlayOutChat extends PacketPlayOut {
     /**
      * Returns {@link #type}
      *
-     * @return  type
+     * @return type
      */
     public ChatMessageType getType() {
         return type;

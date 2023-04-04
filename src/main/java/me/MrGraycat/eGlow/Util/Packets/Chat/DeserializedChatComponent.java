@@ -1,7 +1,7 @@
-package me.MrGraycat.eGlow.Util.Packets.Chat;
+package me.mrgraycat.eglow.util.packets.chat;
 
-import me.MrGraycat.eGlow.Util.Packets.ProtocolVersion;
-import me.MrGraycat.eGlow.Util.Text.ChatUtil;
+import me.mrgraycat.eglow.util.packets.ProtocolVersion;
+import me.mrgraycat.eglow.util.text.ChatUtil;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,7 +10,9 @@ import java.util.List;
 
 public class DeserializedChatComponent extends IChatBaseComponent {
 
-    /** The original serialized component string */
+    /**
+     * The original serialized component string
+     */
     private final String json;
 
     /**
@@ -29,8 +31,7 @@ public class DeserializedChatComponent extends IChatBaseComponent {
     /**
      * Constructs new instance with given parameter
      *
-     * @param   json
-     *          serialized component as string
+     * @param json serialized component as string
      */
     public DeserializedChatComponent(String json) {
         Preconditions.checkNotNull(json, "json");
@@ -50,7 +51,7 @@ public class DeserializedChatComponent extends IChatBaseComponent {
     }
 
     @Override
-    public List<IChatBaseComponent> getExtra(){
+    public List<IChatBaseComponent> getExtra() {
         if (!deserialized) deserialize();
         return super.getExtra();
     }
@@ -68,7 +69,7 @@ public class DeserializedChatComponent extends IChatBaseComponent {
     }
 
     @Override
-    public IChatBaseComponent setExtra(List<IChatBaseComponent> components){
+    public IChatBaseComponent setExtra(List<IChatBaseComponent> components) {
         if (!deserialized) deserialize();
         modified = true;
         return super.setExtra(components);
@@ -96,7 +97,7 @@ public class DeserializedChatComponent extends IChatBaseComponent {
         deserialized = true;
         if (json.startsWith("\"") && json.endsWith("\"") && json.length() > 1) {
             //simple component with only text used, minecraft serializer outputs the text in quotes instead of full json
-            setText(json.substring(1, json.length()-1));
+            setText(json.substring(1, json.length() - 1));
             return;
         }
         JSONObject jsonObject;
@@ -128,11 +129,9 @@ public class DeserializedChatComponent extends IChatBaseComponent {
     /**
      * Returns boolean value of requested key from map
      *
-     * @param   jsonObject
-     *          map to get value from
-     * @param   key
-     *          name of key
-     * @return  value from json object or null if not present
+     * @param jsonObject map to get value from
+     * @param key        name of key
+     * @return value from json object or null if not present
      */
     @SuppressWarnings("unchecked")
     private static Boolean getBoolean(JSONObject jsonObject, String key) {

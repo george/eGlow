@@ -1,12 +1,12 @@
-package me.MrGraycat.eGlow.Addon;
+package me.mrgraycat.eglow.addon;
 
 import dev.geco.gsit.api.GSitAPI;
 import dev.geco.gsit.api.event.PlayerGetUpPoseEvent;
 import dev.geco.gsit.api.event.PlayerPoseEvent;
-import me.MrGraycat.eGlow.API.Event.GlowColorChangeEvent;
-import me.MrGraycat.eGlow.EGlow;
-import me.MrGraycat.eGlow.Manager.DataManager;
-import me.MrGraycat.eGlow.Manager.Interface.IEGlowPlayer;
+import me.mrgraycat.eglow.EGlow;
+import me.mrgraycat.eglow.api.event.GlowColorChangeEvent;
+import me.mrgraycat.eglow.util.data.DataManager;
+import me.mrgraycat.eglow.util.data.EGlowPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -48,7 +48,7 @@ public class GSitAddon implements Listener {
             @Override
             public void run() {
                 if (GSitAPI.isPosing(player)) {
-                    IEGlowPlayer ePlayer = DataManager.getEGlowPlayer(player);
+                    EGlowPlayer ePlayer = DataManager.getEGlowPlayer(player);
                     ePlayer.disableGlow(false);
                 }
             }
@@ -56,7 +56,7 @@ public class GSitAddon implements Listener {
     }
 
     private void checkGlow(Player player, boolean posing) {
-        IEGlowPlayer ePlayer = DataManager.getEGlowPlayer(player);
+        EGlowPlayer ePlayer = DataManager.getEGlowPlayer(player);
 
         if (posing) {
             if (ePlayer.getGlowStatus() || ePlayer.getFakeGlowStatus()) {

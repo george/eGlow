@@ -1,8 +1,8 @@
-package me.MrGraycat.eGlow.Util.Packets;
+package me.mrgraycat.eglow.util.packets;
 
 import io.netty.channel.Channel;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import me.MrGraycat.eGlow.Util.Text.ChatUtil;
+import me.mrgraycat.eglow.util.text.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 

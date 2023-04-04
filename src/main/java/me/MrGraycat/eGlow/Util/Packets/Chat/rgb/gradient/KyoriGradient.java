@@ -1,7 +1,7 @@
-package me.MrGraycat.eGlow.Util.Packets.Chat.rgb.gradient;
+package me.mrgraycat.eglow.util.packets.chat.rgb.gradient;
 
-import me.MrGraycat.eGlow.Util.Packets.Chat.EnumChatFormat;
-import me.MrGraycat.eGlow.Util.Packets.Chat.TextColor;
+import me.mrgraycat.eglow.util.packets.chat.EnumChatFormat;
+import me.mrgraycat.eglow.util.packets.chat.TextColor;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +15,7 @@ public class KyoriGradient implements GradientPattern {
     private final Pattern pattern = Pattern.compile("<gradient:#[0-9a-fA-F]{6}:#[0-9a-fA-F]{6}>[^<]*</gradient>");
 
     private final Pattern patternLegacy = Pattern.compile("<gradient:#[0-9a-fA-F]{6}\\|.:#[0-9a-fA-F]{6}>[^<]*</gradient>");
-    
+
     @Override
     public String applyPattern(String text, boolean ignorePlaceholders) {
         if (!text.contains("<grad")) return text;
@@ -26,7 +26,7 @@ public class KyoriGradient implements GradientPattern {
             EnumChatFormat legacyColor = EnumChatFormat.getByChar(format.charAt(18));
             if ((ignorePlaceholders && format.contains("%")) || legacyColor == null) continue;
             TextColor start = new TextColor(format.substring(11, 17), legacyColor);
-            String message = format.substring(28, format.length()-11);
+            String message = format.substring(28, format.length() - 11);
             TextColor end = new TextColor(format.substring(21, 27));
             String applied = asGradient(start, message, end);
             replaced = replaced.replace(format, applied);
@@ -36,7 +36,7 @@ public class KyoriGradient implements GradientPattern {
             String format = m.group();
             if (ignorePlaceholders && format.contains("%")) continue;
             TextColor start = new TextColor(format.substring(11, 17));
-            String message = format.substring(26, format.length()-11);
+            String message = format.substring(26, format.length() - 11);
             TextColor end = new TextColor(format.substring(19, 25));
             String applied = asGradient(start, message, end);
             replaced = replaced.replace(format, applied);

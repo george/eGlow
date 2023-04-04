@@ -1,13 +1,13 @@
-package me.MrGraycat.eGlow.Addon.Internal;
-
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+package me.mrgraycat.eglow.addon.internal;
 
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class BlockIterator implements Iterator<Block> {
     private final int maxDistance;
@@ -39,7 +39,7 @@ public class BlockIterator implements Iterator<Block> {
         double thirdPosition = 0.0D;
 
         Block startBlock = world.getBlockAt((int) Math.floor(start.getX()), (int) Math.floor(start.getY()), (int) Math.floor(start.getZ()));
-        
+
         if (getXLength(direction) > mainDirection) {
             this.mainFace = getXFace(direction);
             mainDirection = getXLength(direction);
@@ -126,7 +126,9 @@ public class BlockIterator implements Iterator<Block> {
         return (direction.getY() > 0.0D) ? BlockFace.UP : BlockFace.DOWN;
     }
 
-    private BlockFace getZFace(Vector direction) { return (direction.getZ() > 0.0D) ? BlockFace.SOUTH : BlockFace.NORTH; }
+    private BlockFace getZFace(Vector direction) {
+        return (direction.getZ() > 0.0D) ? BlockFace.SOUTH : BlockFace.NORTH;
+    }
 
     private double getXLength(Vector direction) {
         return Math.abs(direction.getX());
@@ -156,11 +158,13 @@ public class BlockIterator implements Iterator<Block> {
         return getPosition(direction.getZ(), position.getZ(), block.getZ());
     }
 
+    @Override
     public boolean hasNext() {
         scan();
         return (this.currentBlock != -1);
     }
 
+    @Override
     public Block next() throws NoSuchElementException {
         scan();
         if (this.currentBlock <= -1)

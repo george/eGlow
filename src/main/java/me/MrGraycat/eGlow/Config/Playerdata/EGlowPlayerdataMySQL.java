@@ -1,13 +1,16 @@
-package me.MrGraycat.eGlow.Config.Playerdata;
+package me.mrgraycat.eglow.config.playerdata;
 
-import me.MrGraycat.eGlow.Config.EGlowMainConfig.MainConfig;
-import me.MrGraycat.eGlow.Manager.Interface.IEGlowPlayer;
-import me.MrGraycat.eGlow.Util.EnumUtil;
-import me.MrGraycat.eGlow.Util.Packets.NMSHook;
-import me.MrGraycat.eGlow.Util.Text.ChatUtil;
+import me.mrgraycat.eglow.config.EGlowMainConfig.MainConfig;
+import me.mrgraycat.eglow.util.EnumUtil;
+import me.mrgraycat.eglow.util.data.EGlowPlayer;
+import me.mrgraycat.eglow.util.packets.NMSHook;
+import me.mrgraycat.eglow.util.text.ChatUtil;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class EGlowPlayerdataMySQL {
@@ -29,9 +32,10 @@ public class EGlowPlayerdataMySQL {
 
     /**
      * Load a players data into eGlow
+     *
      * @param ePlayer player to load data from
      */
-    public void loadPlayerdata(IEGlowPlayer ePlayer) {
+    public void loadPlayerdata(EGlowPlayer ePlayer) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet res = null;
@@ -70,7 +74,7 @@ public class EGlowPlayerdataMySQL {
             } else {
                 EGlowPlayerdataManager.setDefaultValues(ePlayer);
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeMySQLConnection(con, ps, res);
@@ -79,9 +83,10 @@ public class EGlowPlayerdataMySQL {
 
     /**
      * Save the data for the given player
+     *
      * @param ePlayer player to save the data for
      */
-    public void savePlayerdata(IEGlowPlayer ePlayer) {
+    public void savePlayerdata(EGlowPlayer ePlayer) {
         Connection con = null;
         PreparedStatement ps = null;
         String statement;
@@ -141,13 +146,13 @@ public class EGlowPlayerdataMySQL {
         Connection con = null;
         PreparedStatement ps = null;
 
-        String statement = "CREATE DATABASE IF NOT EXISTS " + ((!MainConfig.MYSQL_DBNAME.getString().isEmpty()) ? "`" + MainConfig.MYSQL_DBNAME.getString() + "`": "eglow");
+        String statement = "CREATE DATABASE IF NOT EXISTS " + ((!MainConfig.MYSQL_DBNAME.getString().isEmpty()) ? "`" + MainConfig.MYSQL_DBNAME.getString() + "`" : "eglow");
 
         try {
             con = getConnection();
             ps = Objects.requireNonNull(con, "Failed to retrieve MySQL connection").prepareStatement(statement);
             ps.executeUpdate();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeMySQLConnection(con, ps, null);
@@ -159,9 +164,11 @@ public class EGlowPlayerdataMySQL {
             con = getConnection();
             statement = "CREATE TABLE IF NOT EXISTS eglow (UUID VARCHAR(190) NOT NULL, glowOnJoin BOOLEAN, activeOnQuit BOOLEAN, lastGlowData VARCHAR(190), glowVisibility VARCHAR(190), glowDisableReason VARCHAR(190), PRIMARY KEY (UUID))";
             ps = con.prepareStatement(statement);
-            try {ps.executeUpdate();} catch(Exception e) {/*Ignored*/}
+            try {
+                ps.executeUpdate();
+            } catch (Exception e) {/*Ignored*/}
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         } finally {

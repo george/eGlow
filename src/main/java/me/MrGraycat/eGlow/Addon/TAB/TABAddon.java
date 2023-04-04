@@ -1,10 +1,10 @@
-package me.MrGraycat.eGlow.Addon.TAB;
+package me.mrgraycat.eglow.addon.tab;
 
-import me.MrGraycat.eGlow.Config.EGlowMainConfig.MainConfig;
-import me.MrGraycat.eGlow.EGlow;
-import me.MrGraycat.eGlow.Manager.DataManager;
-import me.MrGraycat.eGlow.Manager.Interface.IEGlowPlayer;
-import me.MrGraycat.eGlow.Util.Text.ChatUtil;
+import me.mrgraycat.eglow.EGlow;
+import me.mrgraycat.eglow.config.EGlowMainConfig.MainConfig;
+import me.mrgraycat.eglow.util.data.DataManager;
+import me.mrgraycat.eglow.util.data.EGlowPlayer;
+import me.mrgraycat.eglow.util.text.ChatUtil;
 import me.neznamy.tab.api.Property;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabConstants;
@@ -40,7 +40,7 @@ public class TABAddon {
                     TAB_Addon.loadTABSettings();
 
                     if (TAB_Addon.blockEGlowPackets()) {
-                        for (IEGlowPlayer ePlayer : DataManager.getEGlowPlayers()) {
+                        for (EGlowPlayer ePlayer : DataManager.getEGlowPlayers()) {
                             if (ePlayer.getFakeGlowStatus() || ePlayer.getGlowStatus())
                                 TAB_Addon.updateTABPlayer(ePlayer, ePlayer.getActiveColor());
                         }
@@ -70,7 +70,7 @@ public class TABAddon {
         }
     }
 
-    public void updateTABPlayer(IEGlowPlayer ePlayer, ChatColor glowColor) {
+    public void updateTABPlayer(EGlowPlayer ePlayer, ChatColor glowColor) {
         TabPlayer tabPlayer = getTABPlayer(ePlayer.getUUID());
 
         if (tabPlayer == null || TabAPI.getInstance().getTeamManager() == null)

@@ -1,6 +1,6 @@
-package me.MrGraycat.eGlow.Util.Packets.Chat;
+package me.mrgraycat.eglow.util.packets.chat;
 
-import me.MrGraycat.eGlow.Util.Packets.ProtocolVersion;
+import me.mrgraycat.eglow.util.packets.ProtocolVersion;
 import org.json.simple.JSONObject;
 
 public class ChatModifier {
@@ -62,7 +62,8 @@ public class ChatModifier {
     @SuppressWarnings("unchecked")
     public JSONObject serialize() {
         JSONObject json = new JSONObject();
-        if (color != null) json.put("color", targetVersion.getMinorVersion() >= 16 ? color.toString() : color.getLegacyColor().toString().toLowerCase());
+        if (color != null)
+            json.put("color", targetVersion.getMinorVersion() >= 16 ? color.toString() : color.getLegacyColor().toString().toLowerCase());
         if (bold != null) json.put("bold", bold);
         if (italic != null) json.put("italic", italic);
         if (underlined != null) json.put("underlined", underlined);

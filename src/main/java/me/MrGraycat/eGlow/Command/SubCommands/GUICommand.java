@@ -1,58 +1,55 @@
- package me.MrGraycat.eGlow.Command.SubCommands;
+package me.mrgraycat.eglow.command.subcommands;
 
- import me.MrGraycat.eGlow.Command.SubCommand;
- import me.MrGraycat.eGlow.Config.EGlowMainConfig;
- import me.MrGraycat.eGlow.Config.EGlowMessageConfig.Message;
- import me.MrGraycat.eGlow.GUI.Menus.EGlowMainMenu;
- import me.MrGraycat.eGlow.Manager.Interface.IEGlowPlayer;
- import me.MrGraycat.eGlow.Util.EnumUtil;
- import me.MrGraycat.eGlow.Util.EnumUtil.GlowVisibility;
- import me.MrGraycat.eGlow.Util.Text.ChatUtil;
- import org.bukkit.command.CommandSender;
- import org.bukkit.potion.PotionEffectType;
+import me.mrgraycat.eglow.command.SubCommand;
+import me.mrgraycat.eglow.config.EGlowMessageConfig.Message;
+import me.mrgraycat.eglow.gui.menus.EGlowMainMenu;
+import me.mrgraycat.eglow.util.EnumUtil.GlowVisibility;
+import me.mrgraycat.eglow.util.data.EGlowPlayer;
+import me.mrgraycat.eglow.util.text.ChatUtil;
+import org.bukkit.command.CommandSender;
 
- public class GUICommand extends SubCommand {
+public class GUICommand extends SubCommand {
 
-	@Override
-	public String getName() {
-		return "gui";
-	}
+    @Override
+    public String getName() {
+        return "gui";
+    }
 
-	@Override
-	public String getDescription() {
-		return "Opens GUI.";
-	}
+    @Override
+    public String getDescription() {
+        return "Opens GUI.";
+    }
 
-	@Override
-	public String getPermission() {
-		return "eglow.command.gui";
-	}
+    @Override
+    public String getPermission() {
+        return "eglow.command.gui";
+    }
 
-	@Override
-	public String[] getSyntax() {
-		return new String[]{"/eGlow"};
-	}
+    @Override
+    public String[] getSyntax() {
+        return new String[]{"/eGlow"};
+    }
 
-	@Override
-	public boolean isPlayerCmd() {
-		return true;
-	}
+    @Override
+    public boolean isPlayerCmd() {
+        return true;
+    }
 
-	@Override
-	public void perform(CommandSender sender, IEGlowPlayer ePlayer, String[] args) {	
-		if (ePlayer.getGlowVisibility().equals(GlowVisibility.UNSUPPORTEDCLIENT))
-			 ChatUtil.sendPlainMsg(sender, Message.UNSUPPORTED_GLOW.get(), true);
+    @Override
+    public void perform(CommandSender sender, EGlowPlayer ePlayer, String[] args) {
+        if (ePlayer.getGlowVisibility().equals(GlowVisibility.UNSUPPORTEDCLIENT))
+            ChatUtil.sendPlainMsg(sender, Message.UNSUPPORTED_GLOW.get(), true);
 
-		if (ePlayer.isInBlockedWorld()) {
-			ChatUtil.sendMsg(sender, Message.WORLD_BLOCKED.get(), true);
-			return;
-		}
+        if (ePlayer.isInBlockedWorld()) {
+            ChatUtil.sendMsg(sender, Message.WORLD_BLOCKED.get(), true);
+            return;
+        }
 
-		if (ePlayer.isInvisible()) {
-			ChatUtil.sendMsg(sender, Message.INVISIBILITY_BLOCKED.get(), true);
-			return;
-		}
-		
-		new EGlowMainMenu(ePlayer.getPlayer()).openInventory();
-	}
+        if (ePlayer.isInvisible()) {
+            ChatUtil.sendMsg(sender, Message.INVISIBILITY_BLOCKED.get(), true);
+            return;
+        }
+
+        new EGlowMainMenu(ePlayer.getPlayer()).openInventory();
+    }
 }
