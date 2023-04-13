@@ -12,104 +12,104 @@ import java.util.Set;
 
 public class EGlowCustomEffectsConfig {
 
-    private static YamlConfiguration config;
-    private static File configFile;
+	private static YamlConfiguration config;
+	private static File configFile;
 
-    public static void initialize() {
-        configFile = new File(EGlow.getInstance().getDataFolder(), "CustomEffects.yml");
+	public static void initialize() {
+		configFile = new File(EGlow.getEGlowInstance().getDataFolder(), "CustomEffects.yml");
 
-        try {
-            if (!EGlow.getInstance().getDataFolder().exists()) {
-                EGlow.getInstance().getDataFolder().mkdirs();
-            }
+		try {
+			if (!EGlow.getEGlowInstance().getDataFolder().exists()) {
+				EGlow.getEGlowInstance().getDataFolder().mkdirs();
+			}
 
-            if (!configFile.exists()) {
-                ChatUtil.sendToConsole("&f[&eeGlow&f]: &4CustomEffects.yml not found&f! &eCreating&f...", false);
-                configFile.getParentFile().mkdirs();
-                EGlow.getInstance().saveResource("CustomEffects.yml", false);
-            } else {
-                ChatUtil.sendToConsole("&f[&eeGlow&f]: &aLoading CustomEffects config&f.", false);
-            }
+			if (!configFile.exists()) {
+				ChatUtil.sendToConsole("&f[&eeGlow&f]: &4CustomEffects.yml not found&f! &eCreating&f...", false);
+				configFile.getParentFile().mkdirs();
+				EGlow.getEGlowInstance().saveResource("CustomEffects.yml", false);
+			} else {
+				ChatUtil.sendToConsole("&f[&eeGlow&f]: &aLoading CustomEffects config&f.", false);
+			}
 
-            config = new YamlConfiguration();
-            config.load(configFile);
-        } catch (Exception e) {
-            ChatUtil.reportError(e);
-        }
-    }
+			config = new YamlConfiguration();
+			config.load(configFile);
+		} catch (Exception e) {
+			ChatUtil.reportError(e);
+		}
+	}
 
-    public static boolean reloadConfig() {
-        YamlConfiguration configBackup = config;
-        File configFileBackup = configFile;
+	public static boolean reloadConfig() {
+		YamlConfiguration configBackup = config;
+		File configFileBackup = configFile;
 
-        try {
-            config = null;
-            configFile = null;
+		try {
+			config = null;
+			configFile = null;
 
-            configFile = new File(EGlow.getInstance().getDataFolder(), "CustomEffects.yml");
-            config = new YamlConfiguration();
-            config.load(configFile);
-            return true;
-        } catch (Exception e) {
-            config = configBackup;
-            configFile = configFileBackup;
+			configFile = new File(EGlow.getEGlowInstance().getDataFolder(), "CustomEffects.yml");
+			config = new YamlConfiguration();
+			config.load(configFile);
+			return true;
+		} catch (Exception e) {
+			config = configBackup;
+			configFile = configFileBackup;
 
-            ChatUtil.reportError(e);
-            return false;
-        }
-    }
+			ChatUtil.reportError(e);
+			return false;
+		}
+	}
 
-    public enum Effect {
-        GET_ALL_EFFECTS("Effects"),
-        GET_DISPLAYNAME("Effects.%effect%.Displayname"),
-        GET_DELAY("Effects.%effect%.Delay"),
-        GET_COLORS("Effects.%effect%.Colors"),
-        GET_PAGE("Effects.%effect%.GUI.Page"),
-        GET_SLOT("Effects.%effect%.GUI.Slot"),
-        GET_MATERIAL("Effects.%effect%.GUI.Material"),
-        GET_META("Effects.%effect%.GUI.Meta"),
-        GET_MODEL_ID("Effects.%effect%.GUI.Model"),
-        GET_NAME("Effects.%effect%.GUI.Name"),
-        GET_LORES("Effects.%effect%.GUI.Lores");
+	public enum Effect {
+		GET_ALL_EFFECTS("Effects"),
+		GET_DISPLAYNAME("Effects.%effect%.Displayname"),
+		GET_DELAY("Effects.%effect%.Delay"),
+		GET_COLORS("Effects.%effect%.Colors"),
+		GET_PAGE("Effects.%effect%.GUI.Page"),
+		GET_SLOT("Effects.%effect%.GUI.Slot"),
+		GET_MATERIAL("Effects.%effect%.GUI.Material"),
+		GET_META("Effects.%effect%.GUI.Meta"),
+		GET_MODEL_ID("Effects.%effect%.GUI.Model"),
+		GET_NAME("Effects.%effect%.GUI.Name"),
+		GET_LORES("Effects.%effect%.GUI.Lores");
 
-        private final Effect effect;
-        private final String configPath;
+		private final Effect effect;
+		private final String configPath;
 
-        Effect(String configPath) {
-            this.effect = this;
-            this.configPath = configPath;
-        }
+		Effect(String configPath) {
+			this.effect = this;
+			this.configPath = configPath;
+		}
 
-        public String getConfigPath() {
-            return configPath;
-        }
+		public String getConfigPath() {
+			return configPath;
+		}
 
-        public Set<String> get() {
-            try {
-                return Objects.requireNonNull(config.getConfigurationSection(effect.getConfigPath()), effect.getConfigPath() + " isn't a valid path").getKeys(false);
-            } catch (NullPointerException e) {
-                return Collections.emptySet();
-            }
-        }
+		public Set<String> get() {
+			try {
+				return Objects.requireNonNull(config.getConfigurationSection(effect.getConfigPath()), effect.getConfigPath() + " isn't a valid path").getKeys(false);
+			} catch (NullPointerException e) {
+				return Collections.emptySet();
+			}
+		}
 
-        public int getInt(String value) {
-            if (effect == GET_MODEL_ID && !config.contains(effect.getConfigPath().replace("%effect%", value)))
-                return -1;
-            return config.getInt(effect.getConfigPath().replace("%effect%", value));
-        }
+		public int getInt(String value) {
+			if (effect == GET_MODEL_ID && !config.contains(effect.getConfigPath().replace("%effect%", value)))
+				return -1;
+			return config.getInt(effect.getConfigPath().replace("%effect%", value));
+		}
 
-        public double getDouble(String value) {
-            if (!config.contains(effect.getConfigPath().replace("%effect%", value)))
-                return 1;
-            return config.getDouble(effect.getConfigPath().replace("%effect%", value));
-        }
+		public double getDouble(String value) {
+			if (!config.contains(effect.getConfigPath().replace("%effect%", value)))
+				return 1;
+			return config.getDouble(effect.getConfigPath().replace("%effect%", value));
+		}
 
-        public String getString(String value) {
-            return config.getString(effect.getConfigPath().replace("%effect%", value));
-        }
+		public String getString(String value) {
+			return config.getString(effect.getConfigPath().replace("%effect%", value));
+		}
 
-        public List<String> getList(String value) {
-            return config.getStringList(effect.getConfigPath().replace("%effect%", value));
-        }
-    }
+		public List<String> getList(String value) {
+			return config.getStringList(effect.getConfigPath().replace("%effect%", value));
+		}
+	}
 }

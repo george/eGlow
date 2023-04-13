@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'io.freefair.lombok' version '8.0.1'
 }
 
 group = 'com.github.mrgraycat'
@@ -31,6 +32,12 @@ repositories {
 }
 
 dependencies {
+    /*compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'*/
+
     compileOnly('org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT')
     compileOnly('me.neznamy:tab-api:3.2.4')
     compileOnly('me.neznamy:tab-bukkit:3.2.4')
@@ -53,15 +60,19 @@ configurations.compileOnly {
     exclude group: 'com.comphenix.protocol', module: 'ProtocolLib'
     exclude group: 'com.destroystokyo.paper', module: 'paper-api'
     exclude group: 'com.github.dmulloy2', module: 'ProtoccolLib'
+    exclude group: 'com.github.Gecolay.GSit', module: 'dist'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_17_R1'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_17_R1_2'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_18_R1'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_18_R2'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_19_R1'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_19_R1_2'
+    exclude group: 'com.github.Gecolay.GSit', module: 'v1_19_R2'
     exclude group: 'com.github.NEZNAMY.TAB', module: 'bstats-base'
     exclude group: 'com.github.NEZNAMY.TAB', module: 'bungeecord'
     exclude group: 'com.github.NEZNAMY.TAB', module: 'tab-bungeecord'
     exclude group: 'com.github.NEZNAMY.TAB', module: 'tab-velocity'
     exclude group: 'com.github.NEZNAMY.TAB', module: 'velocity-1.1.0'
-    exclude group: 'com.github.montlikadani.TabList', module: 'bungee'
-    exclude group: 'com.github.montlikadani.TabList', module: 'global'
-    exclude group: 'com.github.montlikadani.TabList', module: 'tablist-sponge7'
-    exclude group: 'com.github.montlikadani.TabList', module: 'tablist-sponge8'
     exclude group: 'com.github.oshi', module: 'oshi-core'
     exclude group: 'com.google.code.findbugs', module: 'jsr305'
     exclude group: 'com.google.code.gson', module: 'gson'
@@ -126,14 +137,10 @@ configurations.compileOnly {
     exclude group: 'org.apache.maven.resolver', module: 'maven-resolver.spi'
     exclude group: 'org.bukkit', module: 'bukkit'
     exclude group: 'org.checkerframework', module: 'checker-qual'
-    exclude group: 'org.checkerframework', module: 'checker-qual'
     exclude group: 'org.geysermc.floodgate', module: 'api'
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
     exclude group: 'org.jetbrains', module: 'annotations'
-    exclude group: 'org.jetbrains', module: 'annotations'
     exclude group: 'org.ow2.asm', module: 'asm'
-    exclude group: 'org.ow2.asm', module: 'asm'
-    exclude group: 'org.projectlombok', module: 'lombok'
     exclude group: 'org.slf4j', module: 'jcl-over-slf4j'
     exclude group: 'org.slf4j', module: 'slf4j-api'
     exclude group: 'org.spigotmc', module: 'spigot'

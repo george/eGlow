@@ -1,5 +1,7 @@
 package me.mrgraycat.eglow.addon;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.mrgraycat.eglow.EGlow;
 import me.mrgraycat.eglow.config.EGlowMainConfig.MainConfig;
@@ -13,98 +15,100 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultAddon {
-    private Chat chat;
+	@Getter
+	@Setter
+	private Chat chat;
 
-    /**
-     * Get vault's chat & check if PlaceholderAPI is installed for placeholder support
-     */
-    public VaultAddon() {
-        RegisteredServiceProvider<Chat> rsp = EGlow.getInstance().getServer().getServicesManager().getRegistration(Chat.class);
+	/**
+	 * Get vault's chat & check if PlaceholderAPI is installed for placeholder support
+	 */
+	public VaultAddon() {
+		RegisteredServiceProvider<Chat> rsp = EGlow.getEGlowInstance().getServer().getServicesManager().getRegistration(Chat.class);
 
-        if (rsp != null)
-            chat = rsp.getProvider();
-    }
+		if (rsp != null)
+			setChat(rsp.getProvider());
+	}
 
-    /**
-     * Get the players prefix following eGlow's Layout settings
-     *
-     * @param player IEGlowEntity to get the prefix from
-     * @return Formatted prefix as String
-     */
-    public String getPlayerTagPrefix(EGlowPlayer player) {
-        if (!MainConfig.FORMATTING_TAGNAME_ENABLE.getBoolean())
-            return "";
+	/**
+	 * Get the players prefix following eGlow's Layout settings
+	 *
+	 * @param ePlayer IEGlowEntity to get the prefix from
+	 * @return Formatted prefix as String
+	 */
+	public String getPlayerTagPrefix(EGlowPlayer ePlayer) {
+		if (!MainConfig.FORMATTING_TAGNAME_ENABLE.getBoolean())
+			return "";
 
-        Player p = player.getPlayer();
-        String prefix = MainConfig.FORMATTING_TAGNAME_PREFIX.getString();
+		Player player = ePlayer.getPlayer();
+		String prefix = MainConfig.FORMATTING_TAGNAME_PREFIX.getString();
 
-        if (prefix.contains("%prefix%"))
-            prefix = prefix.replace("%prefix%", getPlayerPrefix(player));
+		if (prefix.contains("%prefix%"))
+			prefix = prefix.replace("%prefix%", getPlayerPrefix(ePlayer));
 
-        if (DebugUtil.isPAPIInstalled())
-            prefix = PlaceholderAPI.setPlaceholders(p, prefix);
+		if (DebugUtil.isPAPIInstalled())
+			prefix = PlaceholderAPI.setPlaceholders(player, prefix);
 
-        if (prefix.length() > 14 && ProtocolVersion.SERVER_VERSION.getMinorVersion() <= 12)
-            prefix = prefix.substring(0, 14);
+		if (prefix.length() > 14 && ProtocolVersion.SERVER_VERSION.getMinorVersion() <= 12)
+			prefix = prefix.substring(0, 14);
 
-        return (!prefix.isEmpty()) ? ChatUtil.translateColors(prefix) : prefix;
-    }
+		return (!prefix.isEmpty()) ? ChatUtil.translateColors(prefix) : prefix;
+	}
 
-    /**
-     * Get the players suffix following eGlow's Layout settings
-     *
-     * @param player IEGlowEntity to get the suffix from
-     * @return Formatted suffix as String
-     */
-    public String getPlayerTagSuffix(EGlowPlayer player) {
-        if (!MainConfig.FORMATTING_TAGNAME_ENABLE.getBoolean())
-            return "";
+	/**
+	 * Get the players suffix following eGlow's Layout settings
+	 *
+	 * @param ePlayer IEGlowEntity to get the suffix from
+	 * @return Formatted suffix as String
+	 */
+	public String getPlayerTagSuffix(EGlowPlayer ePlayer) {
+		if (!MainConfig.FORMATTING_TAGNAME_ENABLE.getBoolean())
+			return "";
 
-        Player p = player.getPlayer();
-        String suffix = MainConfig.FORMATTING_TAGNAME_SUFFIX.getString();
+		Player player = ePlayer.getPlayer();
+		String suffix = MainConfig.FORMATTING_TAGNAME_SUFFIX.getString();
 
-        if (suffix.contains("%suffix%"))
-            suffix = suffix.replace("%suffix%", getPlayerSuffix(player));
+		if (suffix.contains("%suffix%"))
+			suffix = suffix.replace("%suffix%", getPlayerSuffix(ePlayer));
 
-        if (DebugUtil.isPAPIInstalled())
-            suffix = PlaceholderAPI.setPlaceholders(p, suffix);
+		if (DebugUtil.isPAPIInstalled())
+			suffix = PlaceholderAPI.setPlaceholders(player, suffix);
 
-        return (!suffix.isEmpty()) ? ChatUtil.translateColors(suffix) : "";
-    }
+		return (!suffix.isEmpty()) ? ChatUtil.translateColors(suffix) : "";
+	}
 
-    /**
-     * Get the players prefix from Vault
-     *
-     * @param player IEGlowEntity to get the prefix from
-     * @return Vault prefix + glow color (cut to 16 chars if needed)
-     */
-    public String getPlayerPrefix(EGlowPlayer player) {
-        if (EGlow.getInstance().getVaultAddon() == null || chat == null)
-            return "";
+	/**
+	 * Get the players prefix from Vault
+	 *
+	 * @param ePlayer IEGlowEntity to get the prefix from
+	 * @return Vault prefix + glow color (cut to 16 chars if needed)
+	 */
+	public String getPlayerPrefix(EGlowPlayer ePlayer) {
+		if (EGlow.getEGlowInstance().getVaultAddon() == null || getChat() == null)
+			return "";
 
-        Player p = player.getPlayer();
-        String prefix = chat.getPlayerPrefix(p);
+		Player player = ePlayer.getPlayer();
+		String prefix = getChat().getPlayerPrefix(player);
 
-        if (prefix != null && !prefix.equals(""))
-            return (ProtocolVersion.SERVER_VERSION.getMinorVersion() <= 12 && prefix.length() > 14) ? ((player.getActiveColor().equals(ChatColor.RESET)) ? (prefix.length() > 16) ? prefix.substring(0, 16) : prefix : prefix.substring(0, 14) + player.getActiveColor()) : prefix;
-        return "";
-    }
+		if (prefix != null && !prefix.isEmpty())
+			return (ProtocolVersion.SERVER_VERSION.getMinorVersion() <= 12 && prefix.length() > 14) ? ((ePlayer.getActiveColor().equals(ChatColor.RESET)) ? (prefix.length() > 16) ? prefix.substring(0, 16) : prefix : prefix.substring(0, 14) + ePlayer.getActiveColor()) : prefix;
+		return "";
+	}
 
-    /**
-     * Get the players suffix from Vault
-     *
-     * @param player IEGlowEntity to get the suffix from
-     * @return Vault suffix + glow color (cut to 16 chars if needed)
-     */
-    public String getPlayerSuffix(EGlowPlayer player) {
-        if (EGlow.getInstance().getVaultAddon() == null || chat == null)
-            return "";
+	/**
+	 * Get the players suffix from Vault
+	 *
+	 * @param ePlayer IEGlowEntity to get the suffix from
+	 * @return Vault suffix + glow color (cut to 16 chars if needed)
+	 */
+	public String getPlayerSuffix(EGlowPlayer ePlayer) {
+		if (EGlow.getEGlowInstance().getVaultAddon() == null || getChat() == null)
+			return "";
 
-        Player p = player.getPlayer();
-        String suffix = chat.getPlayerSuffix(p);
+		Player player = ePlayer.getPlayer();
+		String suffix = getChat().getPlayerSuffix(player);
 
-        if (suffix != null && !suffix.equals(""))
-            return (ProtocolVersion.SERVER_VERSION.getMinorVersion() <= 12 && suffix.length() > 16) ? suffix.substring(0, 16) : suffix;
-        return "";
-    }
+		if (suffix != null && !suffix.isEmpty())
+			return (ProtocolVersion.SERVER_VERSION.getMinorVersion() <= 12 && suffix.length() > 16) ? suffix.substring(0, 16) : suffix;
+		return "";
+	}
 }
