@@ -1,6 +1,5 @@
 package me.mrgraycat.eglow.api;
 
-import me.mrgraycat.eglow.EGlow;
 import me.mrgraycat.eglow.api.effect.EGlowBlink;
 import me.mrgraycat.eglow.api.effect.EGlowColor;
 import me.mrgraycat.eglow.util.data.DataManager;
@@ -15,6 +14,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.UUID;
+
+import static me.mrgraycat.eglow.EGlow.getEGlowInstance;
 
 public class EGlowAPI {
 	/**
@@ -34,9 +35,9 @@ public class EGlowAPI {
 	 * @return IEGlowEntity instance for the uuid
 	 */
 	public EGlowPlayer getEGlowPlayer(UUID uuid) {
-		Player p = Bukkit.getPlayer(uuid);
-		if (p != null)
-			return DataManager.getEGlowPlayer(p);
+		Player player = Bukkit.getPlayer(uuid);
+		if (player != null)
+			return DataManager.getEGlowPlayer(player);
 		return null;
 	}
 
@@ -64,7 +65,7 @@ public class EGlowAPI {
 		if (player == null)
 			return "";
 
-		return (player.isGlowing()) ? player.getActiveColor() + "" : "";
+		return (player.isGlowing()) ? String.valueOf(player.getActiveColor()) : "";
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class EGlowAPI {
 
 				player.activateGlow(effect);
 			}
-		}.runTaskLaterAsynchronously(EGlow.getEGlowInstance(), 1);
+		}.runTaskLaterAsynchronously(getEGlowInstance(), 1);
 	}
 
 	/**
@@ -101,7 +102,7 @@ public class EGlowAPI {
 				EGlowEffect effect = DataManager.getEGlowEffect(color.toString());
 				player.activateGlow(effect);
 			}
-		}.runTaskLaterAsynchronously(EGlow.getEGlowInstance(), 1);
+		}.runTaskLaterAsynchronously(getEGlowInstance(), 1);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class EGlowAPI {
 				EGlowEffect effect = DataManager.getEGlowEffect(blink.toString());
 				player.activateGlow(effect);
 			}
-		}.runTaskLaterAsynchronously(EGlow.getEGlowInstance(), 1);
+		}.runTaskLaterAsynchronously(getEGlowInstance(), 1);
 	}
 
 	/**
@@ -139,7 +140,7 @@ public class EGlowAPI {
 				EGlowEffect effect = DataManager.getEGlowEffect(effects.toString());
 				player.activateGlow(effect);
 			}
-		}.runTaskLaterAsynchronously(EGlow.getEGlowInstance(), 1);
+		}.runTaskLaterAsynchronously(getEGlowInstance(), 1);
 	}
 
 	/**
@@ -156,7 +157,7 @@ public class EGlowAPI {
 
 				player.disableGlow(true);
 			}
-		}.runTaskLaterAsynchronously(EGlow.getEGlowInstance(), 1);
+		}.runTaskLaterAsynchronously(getEGlowInstance(), 1);
 	}
 
 	/**
